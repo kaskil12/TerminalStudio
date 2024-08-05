@@ -1,96 +1,150 @@
 #include "main.h"
-std::unordered_map<std::string, std::function<void()>> commands;
+
+
+
 int main() {
-	commands["help"] = help;
-	commands["fcreate"] = fcreate;
-	commands["fdelete"] = fdelete;
-	commands["close"] = close;
-	commands["color"] = color;
-	commands["clear"] = clear;
-	commands["tm"] = tm;
-	commands["ls"] = ls;
-	commands["cd"] = cd;
-
-	char currentPath[MAX_PATH];
-	GetCurrentDirectoryA(MAX_PATH, currentPath);
-	string path(currentPath);
-	std::cout << path << ": ";
-	string Input;
-	cin >> Input;
-	if (commands.find(Input) != commands.end()) {
-		commands[Input]();
-	}
-	else {
-		std::cout << "Command not found\n";
-		main();
-	}
+    char currentPath[MAX_PATH];
+    GetCurrentDirectoryA(MAX_PATH, currentPath);
+    std::string path(currentPath);
+    std::cout << path << ": ";
+    std::string input;
+    std::getline(std::cin, input);
+    executeCommand(input);
+    return 0;
 }
+
+void executeCommand(const std::string& command) {
+    std::stringstream ss(command);
+    std::string cmd;
+    std::vector<std::string> args;
+    while (ss >> cmd) {
+        args.push_back(cmd);
+    }
+
+    if (args.empty()) {
+        std::cout << "No command entered\n";
+        main();
+        return;
+    }
+
+    const std::string& cmdName = args[0];
+
+    if (cmdName == "help") {
+        help();
+    }
+    else if (cmdName == "fcreate") {
+        fcreate();
+    }
+    else if (cmdName == "fdelete") {
+        fdelete();
+    }
+    else if (cmdName == "close") {
+        close();
+    }
+    else if (cmdName == "color") {
+        color();
+    }
+    else if (cmdName == "clear") {
+        clear();
+    }
+    else if (cmdName == "tim") {
+        tim();
+    }
+    else if (cmdName == "ls") {
+        ls();
+    }
+    else if (cmdName == "cd") {
+        if (args.size() < 2) {
+            std::cout << "Usage: cd <path>\n";
+        }
+        else {
+            cd(args[1]);
+        }
+    }
+    else {
+        std::cout << "Command not found\n";
+        main();
+    }
+}
+
 void help() {
-	for (auto const& x : commands) {
-		std::cout << x.first << "\n";
-	}
-	main();
+    std::cout << "help\nfcreate\nfdelete\nclose\ncolor\nclear\ntim\nls\ncd\n";
+    main();
 }
-void tm() {
-	time_t t = time(nullptr);
-	struct tm tt;
-	localtime_s(&tt, &t);
 
-	char buffer[26];
-	asctime_s(buffer, sizeof(buffer), &tt);
-	std::cout << "Current Day, Date and Time is = " << buffer;
-	main();
+void tim() {
+    time_t t = time(nullptr);
+    struct tm tt;
+    localtime_s(&tt, &t);
+
+    char buffer[26];
+    asctime_s(buffer, sizeof(buffer), &tt);
+    std::cout << "Current Day, Date and Time is = " << buffer;
+    main();
 }
+
 void clear() {
-	system("cls");
-	main();
+    system("cls");
+    main();
 }
+
 void color() {
-	string color;
-	std::cout << "Enter color: ";
-	cin >> color;
+    std::string color;
+    std::cout << "Enter color: ";
+    std::cin >> color;
     system(("Color " + color).c_str());
-	std::cout << "Color changed\n";
-	main();
+    std::cout << "Color changed\n";
+    main();
 }
+
 void ls() {
-	std::filesystem::path currentPath = std::filesystem::current_path();
-	for (const auto& entry : std::filesystem::directory_iterator(currentPath)) {
-		std::cout << entry.path().filename().string() << std::endl;
-	}
-	main();
+    std::filesystem::path currentPath = std::filesystem::current_path();
+    for (const auto& entry : std::filesystem::directory_iterator(currentPath)) {
+        std::cout << entry.path().filename().string() << std::endl;
+    }
+    main();
 }
+
 void fcreate() {
-	std::cout << "Enter file name: ";
-	string name;
-	cin >> name;
-	std::cout << "Enter file type: ";
-	string filetype;
-	cin >> filetype;
-	ofstream file(name + "." + filetype);
-	file.close();
-	std::cout << "File created\n";;
-	main();
+    std::cout << "Enter file name: ";
+    std::string name;
+    std::cin >> name;
+    std::cout << "Enter file type: ";
+    std::string filetype;
+    std::cin >> filetype;
+    std::ofstream file(name + "." + filetype);
+    file.close();
+    std::cout << "File created\n";
+    main();
 }
+
 void fdelete() {
-	std::cout << "Enter file name: ";
-	string name;
-	cin >> name;
-	if (remove(name.c_str()) != 0) {
-		std::cout << "Error deleting file\n";
-	}
-	else {
-		std::cout << "File deleted\n";
-	}
-	main();
+    std::cout << "Enter file name: ";
+    std::string name;
+    std::cin >> name;
+    if (remove(name.c_str()) != 0) {
+        std::cout << "Error deleting file\n";
+    }
+    else {
+        std::cout << "File deleted\n";
+    }
+    main();
 }
-void cd(string path) {
-	char currentPath[MAX_PATH];
-	GetCurrentDirectoryA(MAX_PATH, currentPath);
-	SetCurrentDirectoryA((string(currentPath) + "\\" + path).c_str());
+
+void cd(const std::string& path) {
+    if (SetCurrentDirectoryA(path.c_str())) {
+        char currentPath[MAX_PATH];
+        GetCurrentDirectoryA(MAX_PATH, currentPath);
+        std::cout << "Current directory: " << currentPath << std::endl;
+    }
+    else {
+        std::cerr << "Error: Unable to change directory to " << path << std::endl;
+    }
+    main();
 }
-static void close() {
-	std::cout << "Exiting\n";
-	Sleep(100);
-	system("exit");
+
+void close() {
+    std::cout << "Exiting\n";
+    Sleep(100);
+    exit(0);
 }

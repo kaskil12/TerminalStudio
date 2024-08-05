@@ -9,7 +9,6 @@
 #include <fstream>
 #include <string>
 #include <windows.h>
-#include <unordered_map>
 using namespace std;
 
 int main();
@@ -19,5 +18,7 @@ void fdelete();
 void ls();
 void color();
 void clear();
-void tm();
+void tim();
 void close();
+void cd(const std::string& path);
+void executeCommand(const std::string& command);

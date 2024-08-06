@@ -16,7 +16,7 @@ void help();
 void fcreate();
 void fdelete();
 void ls();
-void color();
+void color(const std::string& colorcode);
 void clear();
 void tim();
 void close();

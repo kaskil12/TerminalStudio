@@ -42,7 +42,13 @@ void executeCommand(const std::string& command) {
         close();
     }
     else if (cmdName == "color") {
-        color();
+        if (args.size() < 2) {
+            std::cout << "Example: color A5";
+            main();
+        }
+        else {
+            color(args[1]);
+        }
     }
     else if (cmdName == "clear") {
         clear();
@@ -88,11 +94,8 @@ void clear() {
     main();
 }
 
-void color() {
-    std::string color;
-    std::cout << "Enter color: ";
-    std::cin >> color;
-    system(("Color " + color).c_str());
+void color(const std::string& colorcode) {
+    system(("Color " + colorcode).c_str());
     std::cout << "Color changed\n";
     main();
 }
@@ -135,7 +138,6 @@ void cd(const std::string& path) {
     if (SetCurrentDirectoryA(path.c_str())) {
         char currentPath[MAX_PATH];
         GetCurrentDirectoryA(MAX_PATH, currentPath);
-        std::cout << "Current directory: " << currentPath << std::endl;
     }
     else {
         std::cerr << "Error: Unable to change directory to " << path << std::endl;

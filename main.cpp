@@ -20,6 +20,7 @@ void executeCommand(const std::string& command) {
     while (ss >> cmd) {
         args.push_back(cmd);
     }
+    History.insert(History.end(), args.begin(), args.end());
 
     if (args.empty()) {
         std::cout << "No command entered\n";
@@ -41,7 +42,7 @@ void executeCommand(const std::string& command) {
     else if (cmdName == "close") {
         close();
     }
-    else if (cmdName == "color") {
+    else if (cmdName == "color" || cmdName == "cl") {
         if (args.size() < 2) {
             std::cout << "Example: color A5";
             main();
@@ -53,10 +54,10 @@ void executeCommand(const std::string& command) {
     else if (cmdName == "clear") {
         clear();
     }
-    else if (cmdName == "tim") {
+    else if (cmdName == "tim" || cmdName == "timecheck") {
         tim();
     }
-    else if (cmdName == "ls") {
+    else if (cmdName == "ls" || cmdName == "list") {
         ls();
     }
     else if (cmdName == "cd") {
@@ -66,6 +67,9 @@ void executeCommand(const std::string& command) {
         else {
             cd(args[1]);
         }
+    }
+    else if (cmdName == "history") {
+        history();
     }
     else {
         std::cout << "Command not found\n";
@@ -141,6 +145,12 @@ void cd(const std::string& path) {
     }
     else {
         std::cerr << "Error: Unable to change directory to " << path << std::endl;
+    }
+    main();
+}
+void history() {
+    for (const auto& item : History) {
+        std::cout << item << " " << std::endl;
     }
     main();
 }

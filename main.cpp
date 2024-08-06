@@ -71,6 +71,12 @@ void executeCommand(const std::string& command) {
     else if (cmdName == "history") {
         history();
     }
+    else if (cmdName == "vmload") {
+        vmload();
+    }
+    else if (cmdName == "games") {
+        games();
+    }
     else {
         std::cout << "Command not found\n";
         main();
@@ -153,6 +159,31 @@ void history() {
         std::cout << item << " " << std::endl;
     }
     main();
+}
+void vmload() {
+    PROCESS_MEMORY_COUNTERS_EX pmc;
+    GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc));
+    SIZE_T virtualMemUsedByMe = pmc.PrivateUsage;
+    std::cout << virtualMemUsedByMe << std::endl;
+    main();
+}
+void games() {
+    string input;
+    std::cout << "choose game: ";
+    cin >> input;
+    if (input == "guessing") {
+        int randomnumber;
+        std::cout << "A random runber between 0-10 will be chosen. your job is to guess the righ one" << std::endl;
+        int guessinput;
+        cin >> guessinput;
+
+        if (guessinput == randomnumber) {
+            std::cout << "YOU GOT IT :)";
+        }
+        else {
+            std::cout << "WRONG";
+        }
+    }
 }
 
 void close() {

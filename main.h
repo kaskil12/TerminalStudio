@@ -9,6 +9,7 @@
 #include <fstream>
 #include <string>
 #include <windows.h>
+#include "psapi.h"
 using namespace std;
 
 //History String
@@ -26,3 +27,5 @@ void close();
 void cd(const std::string& path);
 void executeCommand(const std::string& command);
 void history();
+void vmload();
+void games();

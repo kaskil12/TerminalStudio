@@ -11,6 +11,7 @@
 #include <windows.h>
 #include "psapi.h"
 #include <random>
+#include <cstdio>
 using namespace std;
 
 //History String
@@ -19,7 +20,7 @@ std::vector<std::string> History;
 int main();
 void help(); 
 void fcreate();
-void fdelete();
+void fdelete(const std::string& file);
 void ls();
 void color(const std::string& colorcode);
 void clear();

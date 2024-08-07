@@ -37,8 +37,15 @@ void executeCommand(const std::string& command) {
         fcreate();
     }
     else if (cmdName == "fdelete") {
-        fdelete();
-    }
+        if (args.size() < 2) {
+			std::cout << "Usage: fdelete <file>\n";
+			main();
+		}
+		else {
+			fdelete(args[1]);
+		
+        }
+	}
     else if (cmdName == "close") {
         close();
     }
@@ -83,7 +90,7 @@ void executeCommand(const std::string& command) {
             main();
         }
         else if (args.size() < 3){
-            std::cout << "Example: git clone *repo*" << std::endl;
+            git(args[1], "");
         }
         else {
             git(args[1], args[2]);
@@ -145,15 +152,27 @@ void fcreate() {
     main();
 }
 
-void fdelete() {
-    std::cout << "Enter file name: ";
-    std::string name;
-    std::cin >> name;
-    if (remove(name.c_str()) != 0) {
-        std::cout << "Error deleting file\n";
+void fdelete(const std::string& path) {
+    try {
+        if (std::filesystem::exists(path)) {
+            if (std::filesystem::is_directory(path)) {
+                std::filesystem::remove_all(path);
+                std::cout << "Directory deleted\n";
+            }
+            else if (std::filesystem::is_regular_file(path)) {
+                std::remove(path.c_str());
+                std::cout << "File deleted\n";
+            }
+            else {
+                std::cout << "Path exists but is neither a file nor a directory\n";
+            }
+        }
+        else {
+            std::cout << "Path does not exist\n";
+        }
     }
-    else {
-        std::cout << "File deleted\n";
+    catch (const std::filesystem::filesystem_error& e) {
+        std::cout << "Error deleting path: " << e.what() << '\n';
     }
     main();
 }

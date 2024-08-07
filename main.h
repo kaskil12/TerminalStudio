@@ -10,6 +10,7 @@
 #include <string>
 #include <windows.h>
 #include "psapi.h"
+#include <random>
 using namespace std;
 
 //History String
@@ -29,3 +30,4 @@ void executeCommand(const std::string& command);
 void history();
 void vmload();
 void games();
+void git(const std::string& argument, const std::string& repo);

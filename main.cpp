@@ -77,6 +77,19 @@ void executeCommand(const std::string& command) {
     else if (cmdName == "games") {
         games();
     }
+    else if (cmdName == "git") {
+        if (args.size() < 2) {
+            std::cout << "Example: git clone *repo*" << std::endl;
+            main();
+        }
+        else if (args.size() < 3){
+            std::cout << "Example: git clone *repo*" << std::endl;
+        }
+        else {
+            git(args[1], args[2]);
+            main();
+        }
+    }
     else {
         std::cout << "Command not found\n";
         main();
@@ -84,7 +97,8 @@ void executeCommand(const std::string& command) {
 }
 
 void help() {
-    std::cout << "help\nfcreate\nfdelete\nclose\ncolor\nclear\ntim\nls\ncd\n";
+    //list all functions
+    std::cout << "fcreate - create a file\n fdelete - delete a file\n close - close terminal\n color or cl - change color\n clear - clear the terminal\n tim or timecheck - check time and date\n ls or list - lists all files and folders in the current directory\n cd - change directory\n history - lists all commands used in current session\n vmload - displays the current virtual memory load of the current app\n games - games you can play\n git - github clone or push\n help - lists all commands for help";
     main();
 }
 
@@ -154,6 +168,14 @@ void cd(const std::string& path) {
     }
     main();
 }
+void git(const std::string& argument, const std::string& repo) {
+    std::string command = "git " + argument + " " + repo;
+    int result = std::system(command.c_str());
+    if (result != 0) {
+        std::cerr << "An error occurred: " << result << std::endl;
+    }
+    main();
+}
 void history() {
     for (const auto& item : History) {
         std::cout << item << " " << std::endl;
@@ -172,16 +194,26 @@ void games() {
     std::cout << "choose game: ";
     cin >> input;
     if (input == "guessing") {
-        int randomnumber;
-        std::cout << "A random runber between 0-10 will be chosen. your job is to guess the righ one" << std::endl;
+        std::random_device rd;  // Non-deterministic random number generator
+        std::mt19937 gen(rd()); // Mersenne Twister engine initialized with random_device
+
+        // Define the range of random numbers
+        std::uniform_int_distribution<> dis(1, 10); // Range [1, 10]
+
+        // Generate the random number
+        int randomNumber = dis(gen);
+        std::cout << "A random runber between 0-10 will be chosen. your job is to guess the righ one: ";
         int guessinput;
         cin >> guessinput;
 
-        if (guessinput == randomnumber) {
-            std::cout << "YOU GOT IT :)";
+        if (guessinput == randomNumber) {
+            std::cout << "YOU GOT IT :)" << std::endl;
+            main();
         }
         else {
-            std::cout << "WRONG";
+            std::cout << "WRONG" << std::endl;
+            std::cout << "The number was: " << randomNumber << std::endl;
+            main();
         }
     }
 }

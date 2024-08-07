@@ -34,10 +34,32 @@ void executeCommand(const std::string& command) {
         help();
     }
     else if (cmdName == "fcreate") {
-        fcreate();
+        if(args.size() < 2) {
+			std::cout << "Usage: fcreate <file>\n";
+			main();
+		}
+		else {
+			fcreate(args[1]);
+		}
     }
     else if (cmdName == "fdelete") {
-        fdelete();
+        if (args.size() < 2) {
+			std::cout << "Usage: fdelete <file>\n";
+			main();
+		}
+		else {
+			fdelete(args[1]);
+		
+        }
+    }
+    else if (cmdName == "dcreate") {
+        if (args.size() < 2) {
+            std::cout << "Usage: dcreate <directory>\n";
+            main();
+        }
+        else {
+            dcreate(args[1]);
+        }
     }
     else if (cmdName == "close") {
         close();
@@ -77,6 +99,19 @@ void executeCommand(const std::string& command) {
     else if (cmdName == "games") {
         games();
     }
+    else if (cmdName == "git") {
+        if (args.size() < 2) {
+            std::cout << "Example: git clone *repo*" << std::endl;
+            main();
+        }
+        else if (args.size() < 3){
+            git(args[1], "");
+        }
+        else {
+            git(args[1], args[2]);
+            main();
+        }
+    }
     else {
         std::cout << "Command not found\n";
         main();
@@ -84,7 +119,8 @@ void executeCommand(const std::string& command) {
 }
 
 void help() {
-    std::cout << "help\nfcreate\nfdelete\nclose\ncolor\nclear\ntim\nls\ncd\n";
+    //list all functions
+    std::cout << "fcreate - create a file\n fdelete - delete a file\n close - close terminal\n color or cl - change color\n clear - clear the terminal\n tim or timecheck - check time and date\n ls or list - lists all files and folders in the current directory\n cd - change directory\n history - lists all commands used in current session\n vmload - displays the current virtual memory load of the current app\n games - games you can play\n git - github clone or push\n help - lists all commands for help";
     main();
 }
 
@@ -118,28 +154,43 @@ void ls() {
     main();
 }
 
-void fcreate() {
-    std::cout << "Enter file name: ";
-    std::string name;
-    std::cin >> name;
-    std::cout << "Enter file type: ";
-    std::string filetype;
-    std::cin >> filetype;
-    std::ofstream file(name + "." + filetype);
+void fcreate(const std::string& fileName) {
+    std::ofstream file(fileName);
     file.close();
     std::cout << "File created\n";
     main();
 }
+void dcreate(const std::string& dir) {
+	std::filesystem::create_directory(dir);
+	std::cout << "Directory created\n";
+	main();
+}
 
-void fdelete() {
-    std::cout << "Enter file name: ";
-    std::string name;
-    std::cin >> name;
-    if (remove(name.c_str()) != 0) {
-        std::cout << "Error deleting file\n";
+void fdelete(const std::string& path) {
+    try {
+        if (std::filesystem::exists(path)) {
+            if (std::filesystem::is_directory(path)) {
+                std::filesystem::remove_all(path);
+                std::cout << "Directory deleted\n";
+            }
+            else if (std::filesystem::is_regular_file(path)) {
+                if (std::filesystem::remove(path)) {
+                    std::cout << "File deleted\n";
+                }
+                else {
+                    std::cout << "Error deleting file\n";
+                }
+            }
+            else {
+                std::cout << "Path exists but is neither a file nor a directory\n";
+            }
+        }
+        else {
+            std::cout << "Path does not exist\n";
+        }
     }
-    else {
-        std::cout << "File deleted\n";
+    catch (const std::filesystem::filesystem_error& e) {
+        std::cout << "Error deleting path: " << e.what() << '\n';
     }
     main();
 }
@@ -151,6 +202,14 @@ void cd(const std::string& path) {
     }
     else {
         std::cerr << "Error: Unable to change directory to " << path << std::endl;
+    }
+    main();
+}
+void git(const std::string& argument, const std::string& repo) {
+    std::string command = "git " + argument + " " + repo;
+    int result = std::system(command.c_str());
+    if (result != 0) {
+        std::cerr << "An error occurred: " << result << std::endl;
     }
     main();
 }
@@ -172,16 +231,26 @@ void games() {
     std::cout << "choose game: ";
     cin >> input;
     if (input == "guessing") {
-        int randomnumber;
-        std::cout << "A random runber between 0-10 will be chosen. your job is to guess the righ one" << std::endl;
+        std::random_device rd;  // Non-deterministic random number generator
+        std::mt19937 gen(rd()); // Mersenne Twister engine initialized with random_device
+
+        // Define the range of random numbers
+        std::uniform_int_distribution<> dis(1, 10); // Range [1, 10]
+
+        // Generate the random number
+        int randomNumber = dis(gen);
+        std::cout << "A random runber between 0-10 will be chosen. your job is to guess the righ one: ";
         int guessinput;
         cin >> guessinput;
 
-        if (guessinput == randomnumber) {
-            std::cout << "YOU GOT IT :)";
+        if (guessinput == randomNumber) {
+            std::cout << "YOU GOT IT :)" << std::endl;
+            main();
         }
         else {
-            std::cout << "WRONG";
+            std::cout << "WRONG" << std::endl;
+            std::cout << "The number was: " << randomNumber << std::endl;
+            main();
         }
     }
 }

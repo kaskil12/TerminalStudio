@@ -8,8 +8,12 @@
 #include <filesystem>
 #include <fstream>
 #include <string>
+#include <vector>
+#include <sstream>
 #include <windows.h>
 #include "psapi.h"
+#include <random>
+#include <cstdio>
 using namespace std;
 
 //History String
@@ -17,8 +21,9 @@ std::vector<std::string> History;
 
 int main();
 void help(); 
-void fcreate();
-void fdelete();
+void fcreate(const std::string& fileName);
+void dcreate(const std::string& dir);
+void fdelete(const std::string& file);
 void ls();
 void color(const std::string& colorcode);
 void clear();
@@ -29,3 +34,4 @@ void executeCommand(const std::string& command);
 void history();
 void vmload();
 void games();
+void git(const std::string& argument, const std::string& repo);

@@ -34,7 +34,13 @@ void executeCommand(const std::string& command) {
         help();
     }
     else if (cmdName == "fcreate") {
-        fcreate();
+        if(args.size() < 2) {
+			std::cout << "Usage: fcreate <file>\n";
+			main();
+		}
+		else {
+			fcreate(args[1]);
+		}
     }
     else if (cmdName == "fdelete") {
         if (args.size() < 2) {
@@ -45,7 +51,16 @@ void executeCommand(const std::string& command) {
 			fdelete(args[1]);
 		
         }
-	}
+    }
+    else if (cmdName == "dcreate") {
+        if (args.size() < 2) {
+            std::cout << "Usage: dcreate <directory>\n";
+            main();
+        }
+        else {
+            dcreate(args[1]);
+        }
+    }
     else if (cmdName == "close") {
         close();
     }
@@ -139,17 +154,16 @@ void ls() {
     main();
 }
 
-void fcreate() {
-    std::cout << "Enter file name: ";
-    std::string name;
-    std::cin >> name;
-    std::cout << "Enter file type: ";
-    std::string filetype;
-    std::cin >> filetype;
-    std::ofstream file(name + "." + filetype);
+void fcreate(const std::string& fileName) {
+    std::ofstream file(fileName);
     file.close();
     std::cout << "File created\n";
     main();
+}
+void dcreate(const std::string& dir) {
+	std::filesystem::create_directory(dir);
+	std::cout << "Directory created\n";
+	main();
 }
 
 void fdelete(const std::string& path) {
@@ -160,8 +174,12 @@ void fdelete(const std::string& path) {
                 std::cout << "Directory deleted\n";
             }
             else if (std::filesystem::is_regular_file(path)) {
-                std::remove(path.c_str());
-                std::cout << "File deleted\n";
+                if (std::filesystem::remove(path)) {
+                    std::cout << "File deleted\n";
+                }
+                else {
+                    std::cout << "Error deleting file\n";
+                }
             }
             else {
                 std::cout << "Path exists but is neither a file nor a directory\n";

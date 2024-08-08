@@ -112,6 +112,21 @@ void executeCommand(const std::string& command) {
             main();
         }
     }
+    else if (cmdName == "move") {
+        if(args.size() < 3){
+			std::cout << "Usage: move <source> <destination>\n";
+			main();
+		}
+		else{
+            if (MoveFileA(args[1].c_str(), args[2].c_str())) {
+				std::cout << "File moved\n";
+			}
+			else{
+				std::cout << "Error moving file\n";
+			}
+			main();
+		}
+	}
     else {
         std::cout << "Command not found\n";
         main();

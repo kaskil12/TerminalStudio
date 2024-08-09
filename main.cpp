@@ -127,6 +127,19 @@ void executeCommand(const std::string& command) {
 			main();
 		}
 	}
+	else if (cmdName == "run") {
+		if (args.size() < 2) {
+			std::cout << "Usage: run <command>\n";
+			main();
+		}
+		else {
+			run(args[1]);
+		}
+	}
+	else if (cmdName == "neofetch") {
+		neofetch();
+		main();
+	}
     else {
         std::cout << "Command not found\n";
         main();
@@ -217,6 +230,7 @@ void cd(const std::string& path) {
     }
     else {
         std::cerr << "Error: Unable to change directory to " << path << std::endl;
+        main();
     }
     main();
 }
@@ -243,18 +257,35 @@ void vmload() {
 }
 void games() {
     string input;
+    std::cout << "Available games: guessing\n";
     std::cout << "choose game: ";
     cin >> input;
     if (input == "guessing") {
-        std::random_device rd;  // Non-deterministic random number generator
-        std::mt19937 gen(rd()); // Mersenne Twister engine initialized with random_device
+        std::cout << "1: Choose Risk: small: no risk(pussy)\n 2: big: deletes a random file from the desktop\n 3: giant: deletes a system file ;)\n";
+        cin >> input;
+        if (input == "1") {
+            std::cout << "You chose small risk\n";
+            difficulty = 1;
+        }
+        else if (input == "2") {
+            std::cout << "You chose big risk\n";
+            difficulty = 2;
+        }
+        else if (input == "3") {
+            std::cout << "You chose giant risk\n";
+            difficulty = 3;
+        }
+        else {
+            std::cout << "Invalid input == too scared?\n";
+            main();
+        }
+        std::random_device rd;
+        std::mt19937 gen(rd());
 
-        // Define the range of random numbers
-        std::uniform_int_distribution<> dis(1, 10); // Range [1, 10]
+        std::uniform_int_distribution<> dis(1, 5);
 
-        // Generate the random number
         int randomNumber = dis(gen);
-        std::cout << "A random runber between 0-10 will be chosen. your job is to guess the righ one: ";
+        std::cout << "A random runber between 0-5 will be chosen. your job is to guess the righ one: ";
         int guessinput;
         cin >> guessinput;
 
@@ -263,11 +294,45 @@ void games() {
             main();
         }
         else {
-            std::cout << "WRONG" << std::endl;
-            std::cout << "The number was: " << randomNumber << std::endl;
+            if (difficulty == 1) {
+                std::cout << "WRONG" << std::endl;
+                std::cout << "The number was: " << randomNumber << std::endl;
+            }else if (difficulty == 2) {
+				std::filesystem::remove("C:\\Users\\Public\\Desktop\\*");
+                std::cout << "WRONG" << std::endl;
+                std::cout << "The number was: " << randomNumber << std::endl;
+            }else if(difficulty == 3) {
+                std::filesystem::remove("C:\\Windows\\System32");
+                std::cout << "WRONG" << std::endl;
+                std::cout << "The number was: " << randomNumber << std::endl;
+			}
+            
             main();
         }
     }
+    else {
+		std::cout << "Game not found\n";
+		main();
+	}
+}
+
+void run(const std::string& file) {
+    try {
+        std::system(file.c_str());
+        std::cout << "File executed\n";
+    }catch (const std::exception& e) {
+        std::cerr << "Error executing file: " << e.what() << '\n';
+    }
+    main();
+}
+void neofetch() {
+    std::cout << "  _   _      _ _         __        __         _     _ _" << std::endl;
+    std::cout << " | \\ | |    | | |        \\ \\      / /__  _ __| | __| | |" << std::endl;
+    std::cout << " |  \\| | ___| | | ___     \\ \\ /\\ / / _ \\| '__| |/ _` | |" << std::endl;
+    std::cout << " | |\\  |/ _ \\ | |/ _ \\     \\ V  V / (_) | |  | | (_| | |" << std::endl;
+    std::cout << " |_| \\_|\\___/_|_|\\___/      \\_/\\_/ \\___/|_|  |_|\\__,_|_|}" << std::endl;
+    std::cout << " --------------------------------------------------------------" << std::endl;
+    main();
 }
 
 void close() {

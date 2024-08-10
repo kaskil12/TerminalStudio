@@ -1,8 +1,17 @@
-#include "main.h"
+﻿#include "main.h"
 
 
-
+bool started = false;
 int main() {
+    if (!started) {
+		started = true;
+        std::cout << "___________                  .__              .__   " << std::endl;
+        std::cout << "\\__    ___/__________  _____ |__| ____ _____  |  |  " << std::endl;
+        std::cout << "  |    |_/ __ \\_  __ \\/     \\|  |/    \\\\__  \\ |  |  " << std::endl;
+        std::cout << "  |    |\\  ___/|  | \\/  Y Y  \\  |   |  \\/ __ \\|  |__" << std::endl;
+        std::cout << "  |____| \\___  >__|  |__|_|  /__|___|  (____  /____/" << std::endl;
+        std::cout << "             \\/            \\/        \\/     \\/      " << std::endl;
+	}
     char currentPath[MAX_PATH];
     GetCurrentDirectoryA(MAX_PATH, currentPath);
     std::string path(currentPath);

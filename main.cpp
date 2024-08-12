@@ -157,7 +157,24 @@ void executeCommand(const std::string& command) {
 
 void help() {
     //list all functions
-    std::cout << "fcreate - create a file\n fdelete - delete a file\n close - close terminal\n color or cl - change color\n clear - clear the terminal\n tim or timecheck - check time and date\n ls or list - lists all files and folders in the current directory\n cd - change directory\n history - lists all commands used in current session\n vmload - displays the current virtual memory load of the current app\n games - games you can play\n git - github clone or push\n help - lists all commands for help";
+    std::cout << "Available commands:\n";
+    std::cout << "help: Displays this message\n";
+    std::cout << "fcreate <file>: Creates a file\n";
+    std::cout << "fdelete <file>: Deletes a file\n";
+    std::cout << "dcreate <directory>: Creates a directory\n";
+    std::cout << "close: Exits the program\n";
+    std::cout << "color <colorcode>: Changes the console color\n";
+    std::cout << "clear: Clears the console\n";
+    std::cout << "tim: Displays the current time\n";
+    std::cout << "ls: Lists all files in the current directory\n";
+    std::cout << "cd <path>: Changes the current directory\n";
+    std::cout << "history: Displays the command history\n";
+    std::cout << "vmload: Displays the virtual memory used by the program\n";
+    std::cout << "games: Displays the available games\n";
+    std::cout << "git <command> <repo>: Executes a git command\n";
+    std::cout << "move <source> <destination>: Moves a file\n";
+    std::cout << "run <file>: Executes a file\n";
+    std::cout << "neofetch: Displays the neofetch logo\n";
     main();
 }
 

@@ -1,4 +1,5 @@
-Here's a complete GitHub-friendly README file for your C++ terminal project, using Markdown to format it nicely:
+# Terminal studio
+
 
 ```markdown
 # C++ Terminal Project

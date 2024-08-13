@@ -1,10 +1,21 @@
 # Terminal studio
 
-
-```markdown
-# C++ Terminal Project
-
 This project is a custom terminal application implemented in C++. It supports various commands for interacting with the filesystem and performing other operations. The terminal is designed to run on Windows and can be built using Visual Studio or Visual Studio Code with the `g++` compiler.
+
+## Table of contents
+<div id="user-content-toc">
+  <ul>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#installation">Installation</a></li>
+    <li><a href="#usage">Usage</a>
+      <ul>
+        <li><a href="#commands">Commands</a>
+      </ul>
+    </li>
+      
+  </ul>
+</div>
 
 ## Features
 
@@ -14,7 +25,7 @@ This project is a custom terminal application implemented in C++. It supports va
 - Manage and display command history
 - Execute system commands and run external programs
 - Built-in "games" feature with different risk levels
-
+- 
 ## Prerequisites
 
 - Windows operating system

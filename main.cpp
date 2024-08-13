@@ -1,8 +1,17 @@
-#include "main.h"
+﻿#include "main.h"
 
 
-
+bool started = false;
 int main() {
+    if (!started) {
+		started = true;
+        std::cout << "___________                  .__              .__   " << std::endl;
+        std::cout << "\\__    ___/__________  _____ |__| ____ _____  |  |  " << std::endl;
+        std::cout << "  |    |_/ __ \\_  __ \\/     \\|  |/    \\\\__  \\ |  |  " << std::endl;
+        std::cout << "  |    |\\  ___/|  | \\/  Y Y  \\  |   |  \\/ __ \\|  |__" << std::endl;
+        std::cout << "  |____| \\___  >__|  |__|_|  /__|___|  (____  /____/" << std::endl;
+        std::cout << "             \\/            \\/        \\/     \\/      " << std::endl;
+	}
     char currentPath[MAX_PATH];
     GetCurrentDirectoryA(MAX_PATH, currentPath);
     std::string path(currentPath);
@@ -112,6 +121,34 @@ void executeCommand(const std::string& command) {
             main();
         }
     }
+    else if (cmdName == "move") {
+        if(args.size() < 3){
+			std::cout << "Usage: move <source> <destination>\n";
+			main();
+		}
+		else{
+            if (MoveFileA(args[1].c_str(), args[2].c_str())) {
+				std::cout << "File moved\n";
+			}
+			else{
+				std::cout << "Error moving file\n";
+			}
+			main();
+		}
+	}
+	else if (cmdName == "run") {
+		if (args.size() < 2) {
+			std::cout << "Usage: run <command>\n";
+			main();
+		}
+		else {
+			run(args[1]);
+		}
+	}
+	else if (cmdName == "neofetch") {
+		neofetch();
+		main();
+	}
     else {
         std::cout << "Command not found\n";
         main();
@@ -120,7 +157,24 @@ void executeCommand(const std::string& command) {
 
 void help() {
     //list all functions
-    std::cout << "fcreate - create a file\n fdelete - delete a file\n close - close terminal\n color or cl - change color\n clear - clear the terminal\n tim or timecheck - check time and date\n ls or list - lists all files and folders in the current directory\n cd - change directory\n history - lists all commands used in current session\n vmload - displays the current virtual memory load of the current app\n games - games you can play\n git - github clone or push\n help - lists all commands for help";
+    std::cout << "Available commands:\n";
+    std::cout << "help: Displays this message\n";
+    std::cout << "fcreate <file>: Creates a file\n";
+    std::cout << "fdelete <file>: Deletes a file\n";
+    std::cout << "dcreate <directory>: Creates a directory\n";
+    std::cout << "close: Exits the program\n";
+    std::cout << "color <colorcode>: Changes the console color\n";
+    std::cout << "clear: Clears the console\n";
+    std::cout << "tim: Displays the current time\n";
+    std::cout << "ls: Lists all files in the current directory\n";
+    std::cout << "cd <path>: Changes the current directory\n";
+    std::cout << "history: Displays the command history\n";
+    std::cout << "vmload: Displays the virtual memory used by the program\n";
+    std::cout << "games: Displays the available games\n";
+    std::cout << "git <command> <repo>: Executes a git command\n";
+    std::cout << "move <source> <destination>: Moves a file\n";
+    std::cout << "run <file>: Executes a file\n";
+    std::cout << "neofetch: Displays the neofetch logo\n";
     main();
 }
 
@@ -202,6 +256,7 @@ void cd(const std::string& path) {
     }
     else {
         std::cerr << "Error: Unable to change directory to " << path << std::endl;
+        main();
     }
     main();
 }
@@ -228,18 +283,35 @@ void vmload() {
 }
 void games() {
     string input;
+    std::cout << "Available games: guessing\n";
     std::cout << "choose game: ";
     cin >> input;
     if (input == "guessing") {
-        std::random_device rd;  // Non-deterministic random number generator
-        std::mt19937 gen(rd()); // Mersenne Twister engine initialized with random_device
+        std::cout << "1: Choose Risk: small: no risk(pussy)\n 2: big: deletes a random file from the desktop\n 3: giant: deletes a system file ;)\n";
+        cin >> input;
+        if (input == "1") {
+            std::cout << "You chose small risk\n";
+            difficulty = 1;
+        }
+        else if (input == "2") {
+            std::cout << "You chose big risk\n";
+            difficulty = 2;
+        }
+        else if (input == "3") {
+            std::cout << "You chose giant risk\n";
+            difficulty = 3;
+        }
+        else {
+            std::cout << "Invalid input == too scared?\n";
+            main();
+        }
+        std::random_device rd;
+        std::mt19937 gen(rd());
 
-        // Define the range of random numbers
-        std::uniform_int_distribution<> dis(1, 10); // Range [1, 10]
+        std::uniform_int_distribution<> dis(1, 5);
 
-        // Generate the random number
         int randomNumber = dis(gen);
-        std::cout << "A random runber between 0-10 will be chosen. your job is to guess the righ one: ";
+        std::cout << "A random runber between 0-5 will be chosen. your job is to guess the righ one: ";
         int guessinput;
         cin >> guessinput;
 
@@ -248,11 +320,45 @@ void games() {
             main();
         }
         else {
-            std::cout << "WRONG" << std::endl;
-            std::cout << "The number was: " << randomNumber << std::endl;
+            if (difficulty == 1) {
+                std::cout << "WRONG" << std::endl;
+                std::cout << "The number was: " << randomNumber << std::endl;
+            }else if (difficulty == 2) {
+				std::filesystem::remove("C:\\Users\\Public\\Desktop\\*");
+                std::cout << "WRONG" << std::endl;
+                std::cout << "The number was: " << randomNumber << std::endl;
+            }else if(difficulty == 3) {
+                std::filesystem::remove("C:\\Windows\\System32");
+                std::cout << "WRONG" << std::endl;
+                std::cout << "The number was: " << randomNumber << std::endl;
+			}
+            
             main();
         }
     }
+    else {
+		std::cout << "Game not found\n";
+		main();
+	}
+}
+
+void run(const std::string& file) {
+    try {
+        std::system(file.c_str());
+        std::cout << "File executed\n";
+    }catch (const std::exception& e) {
+        std::cerr << "Error executing file: " << e.what() << '\n';
+    }
+    main();
+}
+void neofetch() {
+    std::cout << "  _   _      _ _         __        __         _     _ _" << std::endl;
+    std::cout << " | \\ | |    | | |        \\ \\      / /__  _ __| | __| | |" << std::endl;
+    std::cout << " |  \\| | ___| | | ___     \\ \\ /\\ / / _ \\| '__| |/ _` | |" << std::endl;
+    std::cout << " | |\\  |/ _ \\ | |/ _ \\     \\ V  V / (_) | |  | | (_| | |" << std::endl;
+    std::cout << " |_| \\_|\\___/_|_|\\___/      \\_/\\_/ \\___/|_|  |_|\\__,_|_|}" << std::endl;
+    std::cout << " --------------------------------------------------------------" << std::endl;
+    main();
 }
 
 void close() {

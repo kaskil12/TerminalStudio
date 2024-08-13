@@ -11,8 +11,13 @@ This project is a custom terminal application implemented in C++. It supports va
     <li><a href="#usage">Usage</a>
       <ul>
         <li><a href="#commands">Commands</a>
+        <li><a href="#example">Example</a>
       </ul>
     </li>
+    <li><a href="#license">License</a>
+    <li><a href="#acknowledgments">Acknowledgments</a>
+    <li><a href="#disclaimer">Disclaimer</a>
+    <li><a href="#contact">Contact</a>
       
   </ul>
 </div>

@@ -1,9 +1,26 @@
-Here's a complete GitHub-friendly README file for your C++ terminal project, using Markdown to format it nicely:
-
-```markdown
-# C++ Terminal Project
+# Terminal studio
 
 This project is a custom terminal application implemented in C++. It supports various commands for interacting with the filesystem and performing other operations. The terminal is designed to run on Windows and can be built using Visual Studio or Visual Studio Code with the `g++` compiler.
+
+## Table of contents
+<div id="user-content-toc">
+  <ul>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#installation">Installation</a></li>
+    <li><a href="#usage">Usage</a>
+      <ul>
+        <li><a href="#commands">Commands</a>
+        <li><a href="#example">Example</a>
+      </ul>
+    </li>
+    <li><a href="#license">License</a>
+    <li><a href="#acknowledgments">Acknowledgments</a>
+    <li><a href="#disclaimer">Disclaimer</a>
+    <li><a href="#contact">Contact</a>
+      
+  </ul>
+</div>
 
 ## Features
 
@@ -13,7 +30,7 @@ This project is a custom terminal application implemented in C++. It supports va
 - Manage and display command history
 - Execute system commands and run external programs
 - Built-in "games" feature with different risk levels
-
+- 
 ## Prerequisites
 
 - Windows operating system
@@ -116,7 +133,7 @@ The "games" feature includes options that may delete files or system directories
 
 ## Contributing
 
-Contributions are welcome! Please follow these steps to contribute:
+Contributions are welcome! You can follow these steps to contribute:
 
 1. Fork the repository.
 2. Create a new branch (`git checkout -b feature-branch`).
@@ -127,17 +144,3 @@ Contributions are welcome! Please follow these steps to contribute:
 ## Contact
 
 For questions or suggestions, feel free to reach out via [GitHub Issues](https://github.com/kaskil12/TerminalStudio/issues).
-
-```
-
-### Key Points
-
-- **Badges**: You can add badges for build status, code coverage, etc., using services like [Shields.io](https://shields.io/).
-  
-- **Screenshots**: To enhance the README, consider adding images or GIFs of your terminal in action.
-
-- **Contribution Guidelines**: The "Contributing" section provides a standard process for contributions, which helps collaborators understand how to submit changes.
-
-- **License**: Ensure you have a `LICENSE` file in your repository for the license to be referenced.
-
-This README is formatted for use on GitHub and includes all the key sections needed for a clear and informative presentation of your project. Adjust any URLs or references to match your actual project details. If you need further customizations, feel free to ask!

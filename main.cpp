@@ -214,6 +214,7 @@ void fcreate(const std::string& fileName) {
     std::cout << "File created\n";
     main();
 }
+
 void dcreate(const std::string& dir) {
 	std::filesystem::create_directory(dir);
 	std::cout << "Directory created\n";
@@ -351,6 +352,7 @@ void run(const std::string& file) {
     }
     main();
 }
+
 void neofetch() {
     std::cout << "  _   _      _ _         __        __         _     _ _" << std::endl;
     std::cout << " | \\ | |    | | |        \\ \\      / /__  _ __| | __| | |" << std::endl;

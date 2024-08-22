@@ -364,7 +364,5 @@ void neofetch() {
 }
 
 void close() {
-    std::cout << "Exiting\n";
-    Sleep(100);
     exit(0);
 }

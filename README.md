@@ -34,8 +34,8 @@ This project is a custom terminal application implemented in C++. It supports va
 ## Prerequisites
 
 - Windows operating system
-- [Visual Studio](https://visualstudio.microsoft.com/) or [Visual Studio Code](https://code.visualstudio.com/)
-- [MinGW](https://www.mingw-w64.org/) for the `g++` compiler (for Visual Studio Code)
+- [Visual Studio](https://visualstudio.microsoft.com/), [Visual Studio Code](https://code.visualstudio.com/) (recommended) or any other code editor if you want to edit the project
+- [MinGW](https://www.mingw-w64.org/) for the `g++` compiler (recommended) or any other c++ compiler
 
 ## Installation
 

@@ -1,6 +1,4 @@
-﻿#include "main.h"
-
-
+#include "main.h"
 bool started = false;
 int main() {
     if (!started) {

@@ -142,6 +142,14 @@ void executeCommand(const std::string& command) {
 		else {
 			run(args[1]);
 		}
+	}else if (cmdName == "read") {
+		if (args.size() < 2) {
+			std::cout << "Usage: read <file>\n";
+			main();
+		}
+		else {
+			read(args[1]);
+		}
 	}
 	else if (cmdName == "neofetch") {
 		neofetch();
@@ -340,7 +348,19 @@ void games() {
 		main();
 	}
 }
-
+void read(const std::string& file) {
+	std::ifstream in(file);
+	if (!in.is_open()) {
+		std::cerr << "Error opening file\n";
+		main();
+	}
+	std::string line;
+	while (std::getline(in, line)) {
+		std::cout << line << '\n';
+	}
+	in.close();
+	main();
+}
 void run(const std::string& file) {
     try {
         std::system(file.c_str());

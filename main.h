@@ -36,6 +36,7 @@ void executeCommand(const std::string& command);
 void history();
 void vmload();
 void run(const std::string& file);
+void read(const std::string& file);
 void neofetch();
 void games();
 void git(const std::string& argument, const std::string& repo);

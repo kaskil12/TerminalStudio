@@ -83,8 +83,8 @@ void executeCommand(const std::string& command) {
     else if (cmdName == "clear") {
         clear();
     }
-    else if (cmdName == "tim" || cmdName == "timecheck") {
-        tim();
+    else if (cmdName == "time") {
+        my_time();
     }
     else if (cmdName == "ls" || cmdName == "list") {
         ls();
@@ -171,7 +171,7 @@ void help() {
     std::cout << "close: Exits the program\n";
     std::cout << "color <colorcode>: Changes the console color\n";
     std::cout << "clear: Clears the console\n";
-    std::cout << "tim: Displays the current time\n";
+    std::cout << "time: Displays the current time\n";
     std::cout << "ls: Lists all files in the current directory\n";
     std::cout << "cd <path>: Changes the current directory\n";
     std::cout << "history: Displays the command history\n";
@@ -184,7 +184,7 @@ void help() {
     main();
 }
 
-void tim() {
+void my_time() {
     time_t t = time(nullptr);
     struct tm tt;
     localtime_s(&tt, &t);
